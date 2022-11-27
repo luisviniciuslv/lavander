@@ -29,3 +29,8 @@ class ClientService:
     found = await self.repository.find_by_id(id)
     found.pop('_id')
     return found
+
+  async def delete_by_id(self, id):
+    if not await self.repository.find_by_id(id):
+      raise ClientNotFound('Client not found')
+    return await self.repository.delete(id)

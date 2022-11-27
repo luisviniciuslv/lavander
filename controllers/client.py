@@ -25,7 +25,7 @@ async def update(id):
   req = request.get_json()
   field = req["field"]
   data = req["data"]
-  print(field)
+  
   try:
     client = ClientService()
     await client.update_one(id, field, data)
@@ -36,7 +36,6 @@ async def update(id):
 
 @client.route('/<id>', methods=['GET'])
 async def get(id):
-  print(id)
   try:
     client = ClientService()
     foundClient = await client.get_by_id(id)
@@ -45,3 +44,15 @@ async def get(id):
 
   except ClientNotFound as e:
     return jsonify({'message': e.message}), 404
+
+@client.route('/', methods=["DELETE"])
+async def delete():
+  data = request.get_json()
+  id = data["id"]
+
+  try:
+    client = ClientService()
+    await client.delete_by_id(id)
+    return jsonify({'message': 'sucess'}), 200
+  except ClientNotFound as e:
+    return jsonify({'message': e}), 404

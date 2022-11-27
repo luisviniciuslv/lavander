@@ -27,3 +27,6 @@ class ClientRepository:
 
   async def update_one(self, id, data):
     return collection.update_one({'_id': ObjectId(id)}, {'$set':data})
+
+  async def delete(self, id):
+    return collection.delete_one({"_id": ObjectId(id)})
